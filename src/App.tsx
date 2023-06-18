@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-/* import { Route, Routes } from 'react-router-dom' */
 import Login from './login';
 import Search from './search';
 

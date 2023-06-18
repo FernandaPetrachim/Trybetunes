@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Route, Routes } from 'react-router-dom'
-import Login from './pages/login';
-import { Search } from './pages/search/search';
+/* import { Route, Routes } from 'react-router-dom' */
+import Login from './login';
+import Search from './search';
 
 function App() {
   return (

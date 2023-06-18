@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './login';
-import Search from './search';
+import Search from './Search';
 
 function App() {
   return (

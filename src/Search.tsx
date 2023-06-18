@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import searchAlbumsAPI from './services/searchAlbumsAPI';
+import Loading from './Loading';
 
 function Search() {
   const [nomeArtista, setNomeArtista] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [albuns, setAlbuns] = useState([]);
+
   const handleChangeArtista = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setNomeArtista(event.target.value);
@@ -14,9 +17,11 @@ function Search() {
     const resposta = await searchAlbumsAPI(nomeArtista);
     setNomeArtista('');
     setLoading(false);
+    setAlbuns(resposta);
   };
-  if (loading);
-
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <>
       <p>Testando</p>
@@ -34,6 +39,19 @@ function Search() {
       >
         Pesquisar
       </button>
+      {
+      albuns.map((album) => {
+        return (
+          <ol>
+<li>
+  {
+    album.collectionName
+  }
+</li>
+          </ol>
+        )
+      });
+      }
     </>
   );
 }

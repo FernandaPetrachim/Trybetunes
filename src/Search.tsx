@@ -9,23 +9,21 @@ interface Album {
 }
 
 function Search() {
-  const [nomeArtista, setNomeArtista] = useState<string>('');
+  const [nomeArtista, setNomeArtista] = useState('');
   const [loading, setLoading] = useState(false);
   const [albuns, setAlbuns] = useState<Album[]>([]);
-  const [resultado, setResultado] = useState<string>('');
-  const [mensagem, setMensagem] = useState<string>('');
+  const [resultado, setResultado] = useState('');
+  const [mensagem, setMensagem] = useState('');
 
   const handleChangeArtista = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
     setNomeArtista(event.target.value);
   };
 
-  const handleClickPesquisar = async (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
+  const handleClickPesquisar = async () => {
     setLoading(true);
     const resposta = await searchAlbumsAPI(nomeArtista);
-    setNomeArtista('');
     setLoading(false);
+    setNomeArtista('');
 
     if (resposta.length > 0) {
       setAlbuns(resposta);
@@ -57,25 +55,27 @@ function Search() {
         Pesquisar
       </button>
 
+      {loading && <Loading />}
+      {' '}
+      {/* Renderizar o componente Loading quando loading for true */}
+
       {resultado && <p>{resultado}</p>}
 
-      {albuns.length > 0 ? (
+      {albuns.length > 0 && (
         <div>
+          <p>Lista dos álbuns retornados:</p>
           {albuns.map((album) => (
             <div key={ album.collectionId }>
               <Link
                 to={ `/album/${album.collectionId}` }
                 data-testid={ `link-to-album-${album.collectionId}` }
               >
-                <h3>{album.collectionName}</h3>
+                {album.collectionName}
               </Link>
-              <ol>
-                <li>{album.collectionName}</li>
-              </ol>
             </div>
           ))}
         </div>
-      ) : null}
+      )}
 
       {mensagem && <p>{mensagem}</p>}
     </>

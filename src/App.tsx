@@ -10,11 +10,10 @@ function App() {
       <p>Trybetunes</p>
       <Routes>
         <Route path="/" element={ <Login /> } />
-        <Route path="/search" element={ <Search /> } />
-        <Route path="/album/:id" element={ <Album /> } />
-        {/*   <Route path="/" element={ <Layout /> }>
+        <Route element={ <Layout /> }>
           <Route path="/search" element={ <Search /> } />
-          <Route path="/album/:id" element={ <Album /> } /> */}
+          <Route path="/album/:id" element={ <Album /> } />
+        </Route>
       </Routes>
     </>
   );

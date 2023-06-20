@@ -1,7 +1,7 @@
-function loading() {
+function Loading() {
   return (
     <h1>Carregando...</h1>
   );
 }
 
-export default loading;
+export default Loading;

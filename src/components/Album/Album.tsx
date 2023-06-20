@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import getMusics from '../../services/musicsAPI';
 import MusicCard from './Music.Card';
+import Loading from '../../Loading';
+import { AlbumType, SongType } from '../../types';
 
+const DEFAULT_TYPE = {
+  trackId: 0,
+  trackName: '',
+  previewUrl: '',
+
+};
 function Album() {
   const [loading, setLoading] = useState(true);
-  const [music, setMusic] = useState([]); // musica primeiro estado dele, a segunda é uma função que altera o estado
+  const [music, setMusic] = useState<AlbumType[] | null>(null); // musica primeiro estado dele, a segunda é uma função que altera o estado
   // guardar o array retorno,guardar as musicas
   // ele começa com array vazio
   // set de setar
+  const { id } = useParams();
   useEffect(() => {
     const fetchMusicas = async () => {
       setLoading(true);
-      const musicas = await getMusics(id); // getmusic para buscar as listas de músicas e coloquei no estado music
-      const filterMusicas = musicas.filter((musica) => musica.kind === 'song'); // so quero o obejto kind com tipo song
-      setMusic(filterMusicas); // um array de lista de musicas, setou p estado de music com array de objetos
-      setLoading(false);
+      if (id) {
+        const musicas = await getMusics(id); // getmusic para buscar as listas de músicas e coloquei no estado music
+        /*    const index = musicas.findIndex((song) => song.trackId === song); */
+        setMusic(musicas); // um array de lista de musicas, setou p estado de music com array de objetos
+        setLoading(false);
+      }
     };
     fetchMusicas();
   }, []);
@@ -31,19 +43,13 @@ function Album() {
     <>
       <h1 data-testid="album-name">Collection Name</h1>
       <h2 data-testid="artist-name">Artist Name</h2>
-      {music.length > 0 ? (
-        <MusicCard musicas={ music } />
-      ) : (
-        <p>Não tem essas músicas disponíveis</p>
-      )}
-      <audio data-testid="audio-component" src="{previewUrl}" controls>
-        <track kind="captions" />
-        O seu navegador não suporta o elemento
-        {' '}
-        {' '}
-        <code>audio</code>
-        .
-      </audio>
+      {music && music.length > 0
+        ? music.slice(1)
+          .map((song, index) => (<MusicCard key={ index } music={ song } />))
+        : (
+          <p>Não tem essas músicas disponíveis</p>
+        )}
     </>
   );
 }
+export default Album;

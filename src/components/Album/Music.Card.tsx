@@ -2,10 +2,11 @@ interface MusicCardProps {
   music: {
     trackName: string;
     previewUrl: string;
+    trackId: string;
   }
 }
 
-function MusicCard({ music: { trackName, previewUrl } }: MusicCardProps) {
+function MusicCard({ music: { trackName, previewUrl, trackId } }: MusicCardProps) {
   return (
     <>
       <p>{trackName}</p>
@@ -17,6 +18,7 @@ function MusicCard({ music: { trackName, previewUrl } }: MusicCardProps) {
         <code>audio</code>
         .
       </audio>
+      <input data-testid={ `checkbox-music-${trackId}` } />
     </>
   );
 }
